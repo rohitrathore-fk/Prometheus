@@ -1,0 +1,28 @@
+global: 
+  resolve_timeout: 5m
+
+
+route:
+  receiver: email-me
+  repeat_interval: 30s
+  group_interval: 30s
+  group_by: [ alertname ]
+
+
+receivers:
+  - name: email-me
+    email_configs:
+    - send_resolved: true
+      to: rohit.rathore@fourkites.com
+      from: icarus01fall@gmail.com
+      smarthost: smtp.gmail.com:587
+      auth_username: 'icarus01fall@gmail.com'
+      auth_identity: 'icarus01fall@gmail.com'
+      auth_password: "yjvsysnpbhdpodux"
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']   
